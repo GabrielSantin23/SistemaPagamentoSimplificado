@@ -1,19 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\UserController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('home');
-});
-
-Route::get('/teste-web', function () {
-    return 'Teste Web Funcionando!';
-});
-
-Route::get('/cadastro', function () {
-    return 'Teste Cadastro Funcionando!';
-})->name('cadastro.index');
+})->name('home.index');
 
 Route::get('/pagamento', function () {
     return 'Pagamento Funcionando!';
 })->name('pagamento.index');
+
+Route::resource('users', UserController::class);

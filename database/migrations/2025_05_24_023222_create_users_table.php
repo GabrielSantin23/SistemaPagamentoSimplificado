@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('cpf_cnpj')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('user_type', ['comum', 'lojista'])->default('comum');
+            $table->enum('user_type', ['COMUM', 'LOJISTA'])->default('COMUM');
             $table->timestamps();
         });
     }

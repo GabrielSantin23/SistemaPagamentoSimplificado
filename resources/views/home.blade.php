@@ -4,10 +4,10 @@
 
 @section('content')
     <div class="modules-container">
-        <a href="{{ route('cadastro.index') }}" class="module-card">
-            Cadastro
+        <a href="{{ route('users.index') }}" class="module-card">
+            Cadastro de usuários
         </a>
-        <a href="{{ route('pagamento.index') }}" class="module-card">
+        <a href="{{ route('pagamento.index')}}" class="module-card">
             Pagamento
         </a>
     </div>
