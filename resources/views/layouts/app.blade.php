@@ -1,126 +1,117 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Sistema de Usuários')</title>
-    <!-- Tailwind CSS via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                            950: '#082f49',
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <title>{{ config('app.name', 'Laravel') }} - @yield('title', 'Dashboard')</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: {
+                                50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa',
+                                500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a'
+                            }
                         }
                     }
                 }
             }
-        }
-    </script>
-    <!-- Heroicons (para ícones) -->
-    <script src="https://unpkg.com/heroicons@1.0.6/outline/index.js"></script>
-    <!-- Alpine.js para interatividade -->
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-        [x-cloak] { display: none !important; }
+        </script>
 
-        .modules-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: center;
-        }
-        .module-card {
-            background-color: lightblue;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            width: 150px;
-            height: 150px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            font-weight: bold;
-            color: #004aad;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .module-card:hover {
-            transform: scale(1.05);
-        }
-    </style>
-</head>
-<body class="bg-gray-50 min-h-screen">
-    <!-- Barra de navegação -->
-    <nav class="bg-primary-700 text-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="{{ route('home.index') }}" class="flex-shrink-0 flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-                        </svg>
-                        <span class="font-bold text-xl">Sistema de Usuários</span>
-                    </a>
+        <style>
+            body { font-family: 'Figtree', sans-serif; background-color: #f3f4f6; margin: 0; }
+            .app-layout { display: flex; flex-direction: column; min-height: 100vh; }
+            .navbar { background-color: white; padding: 1rem 2rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); display: flex; justify-content: space-between; align-items: center; }
+            .navbar a { text-decoration: none; color: #374151; margin-left: 1rem; }
+            .navbar a:hover { color: #4f46e5; }
+            .navbar .logo { font-weight: 600; font-size: 1.25rem; margin-left: 0; }
+            .navbar form button { background: none; border: none; color: #6b7280; cursor: pointer; font-size: 1rem; }
+            .navbar form button:hover { color: #ef4444; }
+            .main-content { flex-grow: 1; padding: 2rem; }
+            .content-wrapper { max-width: 7xl; margin-left: auto; margin-right: auto; background-color: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); }
+            .page-header { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: #1f2937; }
+            .status-message { margin-bottom: 1rem; padding: 1rem; background-color: #d1fae5; color: #065f46; border-radius: 0.375rem; }
+            .error-message { margin-bottom: 1rem; padding: 1rem; background-color: #fee2e2; color: #991b1b; border-radius: 0.375rem; }
+            /* Basic Card Styling */
+            .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+            .card { background-color: lightblue; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem; text-align: center; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; text-decoration: none; color: #374151; }
+            .card:hover { transform: translateY(-5px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+            .card h3 { margin-top: 0; font-size: 1.125rem; font-weight: 600; }
+            .card p { font-size: 0.875rem; color: #6b7280; }
+            /* Basic Table Styling */
+            table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+            th, td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; }
+            th { background-color: #f9fafb; font-weight: 600; color: #374151; }
+            tr:nth-child(even) { background-color: #f9fafb; }
+            /* Basic Form Styling */
+            .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151; }
+            .form-input { display: block; width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem; margin-bottom: 1rem; box-sizing: border-box; }
+            .form-button { background-color: #4f46e5; color: white; padding: 0.5rem 1rem; border: none; border-radius: 0.375rem; cursor: pointer; }
+            .form-button-delete { background-color: #ef4444; }
+            .form-link { color: #4f46e5; text-decoration: underline; }
+            .form-error { color: #ef4444; font-size: 0.875rem; margin-top: -0.75rem; margin-bottom: 1rem; }
+        </style>
+
+    </head>
+    <body>
+        <div class="app-layout">
+            <!-- Navigation -->
+            <nav class="navbar">
+                <a href="{{ route('dashboard') }}" class="logo">{{ config('app.name', 'Laravel') }}</a>
+                <div>
+                    <span>{{ Auth::user()->name }} ({{ Auth::user()->user_type }}) - Saldo: R$ {{ number_format(Auth::user()->balance, 2, ',', '.') }}</span>
+                    <a href="{{ route('profile.edit') }}">Profile</a>
+                    <!-- Logout Form -->
+                    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                        @csrf
+                        <button type="submit">Logout</button>
+                    </form>
                 </div>
-                <div class="flex items-center">
-                    <a href="{{ route('users.index') }}" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-primary-600 focus:outline-none focus:bg-primary-600">Usuários</a>
-                    <!-- Adicione mais links de navegação aqui, se necessário -->
+            </nav>
+
+            <!-- Page Heading -->
+            @hasSection('header')
+                <header style="background-color: white; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); padding: 1rem 2rem;">
+                    <h2 class="page-header" style="margin: 0;">
+                        @yield('header')
+                    </h2>
+                </header>
+            @endif
+
+            <!-- Page Content -->
+            <main class="main-content">
+                 <!-- Session Status Messages -->
+                @if (session('success'))
+                    <div class="status-message">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="error-message">
+                        {{ session('error') }}
+                    </div>
+                @endif
+                 @if (session('status'))
+                    <div class="status-message">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                <div class="content-wrapper">
+                     @yield('content')
                 </div>
-            </div>
+            </main>
         </div>
-    </nav>
-
-    <!-- Conteúdo principal -->
-    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <!-- Alertas de sucesso ou erro -->
-        @if(session('success'))
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
-                <p>{{ session('success') }}</p>
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
-                <p>{{ session('error') }}</p>
-            </div>
-        @endif
-
-        <!-- Título da página -->
-        <!-- <div class="md:flex md:items-center md:justify-between mb-6">
-            <div class="flex-1 min-w-0">
-                <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-                    @yield('header', 'Dashboard')
-                </h2>
-            </div>
-        </div> -->
-
-        <!-- Conteúdo específico da página -->
-        @yield('content')
-    </main>
-
-    <!-- Rodapé -->
-    <footer class="bg-white border-t border-gray-200 mt-12">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <p class="text-center text-gray-500 text-sm">
-                &copy; {{ date('Y') }} Sistema de Pagamentos Simplificados.
-            </p>
-        </div>
-    </footer>
-
-    <!-- Scripts adicionais -->
-    @yield('scripts')
-</body>
+    </body>
 </html>
+

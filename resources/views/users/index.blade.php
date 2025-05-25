@@ -6,10 +6,8 @@
 
 @section('content')
 <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-    <!-- Barra de ferramentas com busca e botão de adicionar -->
     <div class="px-4 py-5 sm:px-6 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-        <!-- Formulário de busca -->
-        <form action="{{ route('users.index') }}" method="GET" class="w-full md:w-2/3">
+        <form action="{{ route('admin.users.index') }}" method="GET" class="w-full md:w-2/3">
             <div class="flex items-center">
                 <div class="relative flex-grow">
                     <input type="text" name="search" value="{{ $search ?? '' }}" 
@@ -25,16 +23,15 @@
                     Buscar
                 </button>
                 @if(!empty($search))
-                    <a href="{{ route('users.index') }}" class="ml-2 text-sm text-primary-600 hover:text-primary-800">
+                    <a href="{{ route('admin.users.index') }}" class="ml-2 text-sm text-primary-600 hover:text-primary-800">
                         Limpar
                     </a>
                 @endif
             </div>
         </form>
         
-        <!-- Botão de adicionar -->
         <div>
-            <a href="{{ route('users.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+            <a href="{{ route('admin.users.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                 <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
                 </svg>
@@ -43,13 +40,12 @@
         </div>
     </div>
     
-    <!-- Tabela de usuários -->
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y border border-gray-300 divide-gray-300">
             <thead class="bg-gray-50">
                 <tr>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        <a href="{{ route('users.index', ['sort' => 'id', 'direction' => $sortField === 'id' && $sortDirection === 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="flex items-center">
+                        <a href="{{ route('admin.users.index', ['sort' => 'id', 'direction' => $sortField === 'id' && $sortDirection === 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="flex items-center">
                             ID
                             @if($sortField === 'id')
                                 <svg class="ml-1 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -63,7 +59,7 @@
                         </a>
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        <a href="{{ route('users.index', ['sort' => 'name', 'direction' => $sortField === 'name' && $sortDirection === 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="flex items-center">
+                        <a href="{{ route('admin.users.index', ['sort' => 'name', 'direction' => $sortField === 'name' && $sortDirection === 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="flex items-center">
                             Nome
                             @if($sortField === 'name')
                                 <svg class="ml-1 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -77,7 +73,7 @@
                         </a>
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        <a href="{{ route('users.index', ['sort' => 'user_type', 'direction' => $sortField === 'user_type' && $sortDirection === 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="flex items-center">
+                        <a href="{{ route('admin.users.index', ['sort' => 'user_type', 'direction' => $sortField === 'user_type' && $sortDirection === 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="flex items-center">
                             Tipo do Usuário
                             @if($sortField === 'user_type')
                                 <svg class="ml-1 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -91,7 +87,7 @@
                         </a>
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        <a href="{{ route('users.index', ['sort' => 'email', 'direction' => $sortField === 'email' && $sortDirection === 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="flex items-center">
+                        <a href="{{ route('admin.users.index', ['sort' => 'email', 'direction' => $sortField === 'email' && $sortDirection === 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="flex items-center">
                             Email
                             @if($sortField === 'email')
                                 <svg class="ml-1 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -105,7 +101,7 @@
                         </a>
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        <a href="{{ route('users.index', ['sort' => 'created_at', 'direction' => $sortField === 'created_at' && $sortDirection === 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="flex items-center">
+                        <a href="{{ route('admin.users.index', ['sort' => 'created_at', 'direction' => $sortField === 'created_at' && $sortDirection === 'asc' ? 'desc' : 'asc', 'search' => $search]) }}" class="flex items-center">
                             Data de Criação
                             @if($sortField === 'created_at')
                                 <svg class="ml-1 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -152,18 +148,18 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div class="flex justify-end space-x-2">
-                                <a href="{{ route('users.show', $user) }}" class="text-primary-600 hover:text-primary-900" title="Visualizar">
+                                <a href="{{ route('admin.users.show', $user) }}" class="text-primary-600 hover:text-primary-900" title="Visualizar">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                                         <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
                                     </svg>
                                 </a>
-                                <a href="{{ route('users.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900" title="Editar">
+                                <a href="{{ route('admin.users.edit', $user) }}" class="text-indigo-600 hover:text-indigo-900" title="Editar">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                     </svg>
                                 </a>
-                                <form action="{{ route('users.destroy', $user) }}" method="POST" class="inline-block" onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');">
+                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline-block" onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900" title="Excluir">
@@ -186,7 +182,6 @@
         </table>
     </div>
     
-    <!-- Paginação -->
     <div class="px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
         {{ $users->links() }}
     </div>

@@ -7,14 +7,19 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckUserRole;
 
 class RouteServiceProvider extends ServiceProvider
 {
 
     public const HOME = '/home';
 
-    public function boot()
+    public function boot(): void
     {
+        parent::boot();
+
+        Route::aliasMiddleware('role', CheckUserRole::class);
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')

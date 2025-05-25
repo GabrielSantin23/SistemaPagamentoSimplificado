@@ -5,9 +5,11 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 class UserFactory extends Factory
 {
+
     protected static ?string $password;
 
     public function definition(): array
@@ -18,21 +20,55 @@ class UserFactory extends Factory
             : $this->generateCpf();
 
         return [
-            'name' => fake()->name(),
-            'cpf_cnpj' => $cpfCnpj,
-            'email' => fake()->unique()->safeEmail(),
-            'password' => static::$password ??= Hash::make('password'),
-            'user_type' => fake()->randomElement(['COMUM', 'LOJISTA']),
+            "name" => fake()->name(),
+            "cpf_cnpj" => $cpfCnpj,
+            "email" => fake()->unique()->safeEmail(),
+            //"email_verified_at" => now(),
+            "password" => static::$password ??= Hash::make("password"),
+            "user_type" => fake()->randomElement(["COMUM", "LOJISTA"]),
+            "wallet" => fake()->randomFloat(2, 50, 1000),
+            "remember_token" => Str::random(10),
         ];
     }
 
+    // public function unverified(): static
+    // {
+    //     return $this->state(fn (array $attributes) => [
+    //         "email_verified_at" => null,
+    //     ]);
+    // }
+
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            "user_type" => "ADMIN",
+            "wallet" => 10000.00,
+        ]);
+    }
+
+    public function comum(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            "user_type" => "COMUM",
+        ]);
+    }
+
+    public function lojista(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            "user_type" => "LOJISTA",
+        ]);
+    }
+
+
     private function generateCpf(): string
     {
-        return str_pad(rand(0, 99999999999), 11, '0', STR_PAD_LEFT);
+        return sprintf("%03d%03d%03d%02d", rand(0, 999), rand(0, 999), rand(0, 999), rand(0, 99));
     }
 
     private function generateCnpj(): string
     {
-        return str_pad(rand(0, 99999999999999), 14, '0', STR_PAD_LEFT);
+        return sprintf("%02d%03d%03d%04d%02d", rand(0, 99), rand(0, 999), rand(0, 999), rand(0, 9999), rand(0, 99));
     }
 }
+

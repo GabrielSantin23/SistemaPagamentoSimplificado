@@ -59,6 +59,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
             'user_type' => ['required', Rule::in(['COMUM', 'LOJISTA'])],
+            'wallet' => 'required|decimal:2|min:0',
         ]);
         
         User::create([
@@ -67,6 +68,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_type' => $request->user_type,
+            'wallet' => $request->wallet,
         ]);
         
         return redirect()->route('users.index')
@@ -91,6 +93,7 @@ class UserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'user_type' => ['required', Rule::in(['COMUM', 'LOJISTA'])],
             'password' => ['nullable', 'string', Password::defaults(), 'confirmed'],
+            'wallet' => ['required', 'decimal:2', 'min:0'],
         ]);
 
         $userData = [
