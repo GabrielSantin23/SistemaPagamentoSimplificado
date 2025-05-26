@@ -48,7 +48,7 @@ class User extends Authenticatable
         return strtoupper($this->user_type) === 'ADMIN';
     }
 
-    public function wallet(): HasOne
+    public function walletRelation(): HasOne
     {
         return $this->hasOne(Wallet::class);
     }
@@ -80,5 +80,26 @@ class User extends Authenticatable
         }
 
         return $this->wallet;
+    }
+
+    public function hasSufficientBalance(float $amount): bool
+    {
+        return $this->wallet >= $amount;
+    }
+
+    public function debit(float $amount): bool
+    {
+        if (!$this->hasSufficientBalance($amount)) {
+            return false;
+        }
+
+        $this->wallet -= $amount;
+        return $this->save();
+    }
+
+    public function credit(float $amount): bool
+    {
+        $this->wallet += $amount;
+        return $this->save();
     }
 }

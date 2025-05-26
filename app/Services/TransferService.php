@@ -48,14 +48,14 @@ class TransferService
 
         try {
             $result = DB::transaction(function () use ($payerWallet, $payeeWallet, $amount, $transaction, $payer, $payee) {
-                if (!$payerWallet->debit($amount)) {
+                if (!$payer->debit($amount)) {
                     throw new Exception('Falha ao debitar valor da carteira do pagador.');
                 }
 
                 $authorizationResponse = $this->requestAuthorization();
                 
                 if (!$authorizationResponse['authorized']) {
-                    $payerWallet->credit($amount);
+                    $payer->credit($amount);
                     $transaction->markAsFailed();
                     
                     return [
@@ -65,8 +65,8 @@ class TransferService
                     ];
                 }
 
-                if (!$payeeWallet->credit($amount)) {
-                    $payerWallet->credit($amount);
+                if (!$payee->credit($amount)) {
+                    $payer->credit($amount);
                     $transaction->markAsFailed();
                     
                     throw new Exception('Falha ao creditar valor na carteira do recebedor.');
@@ -101,12 +101,22 @@ class TransferService
     private function requestAuthorization(): array
     {
         try {
-            $response = Http::get('https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6');
-            
+            $response = Http::get('https://66ad1f3cb18f3614e3b478f5.mockapi.io/v1/auth');
+
             if ($response->successful()) {
                 $data = $response->json();
-                
-                if (isset($data['message']) && $data['message'] === 'Autorizado') {
+
+                if (is_array($data)) {
+                    foreach ($data as $item) {
+                        if (isset($item['message']) && $item['message'] === 'Autorizado') {
+                            return [
+                                'authorized' => true,
+                                'message' => $item['message'],
+                                'authorization_code' => Str::random(10)
+                            ];
+                        }
+                    }
+                } elseif (isset($data['message']) && $data['message'] === 'Autorizado') {
                     return [
                         'authorized' => true,
                         'message' => $data['message'],
@@ -114,12 +124,12 @@ class TransferService
                     ];
                 }
             }
-            
+
             return [
                 'authorized' => false,
                 'message' => 'Serviço autorizador recusou a transação ou retornou resposta inesperada.'
             ];
-            
+
         } catch (Exception $e) {
             return [
                 'authorized' => false,
@@ -131,7 +141,7 @@ class TransferService
     private function sendNotification(User $user, Transaction $transaction, string $userType): bool
     {
         try {
-            $response = Http::post('https://run.mocky.io/v3/b19f7b9f-9cbf-4fc6-ad22-dc30601aec04', [
+            $response = Http::post('https://66ad1f3cb18f3614e3b478f5.mockapi.io/v1/send', [
                 'user_id' => $user->id,
                 'transaction_id' => $transaction->id,
                 'amount' => $transaction->amount,

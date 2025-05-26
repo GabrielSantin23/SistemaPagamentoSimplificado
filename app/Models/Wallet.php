@@ -24,24 +24,24 @@ class Wallet extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function hasSufficientBalance(float $amount): bool
-    {
-        return $this->balance >= $amount;
-    }
+    // public function hasSufficientBalance(float $amount): bool
+    // {
+    //     return $this->balance >= $amount;
+    // }
 
-    public function debit(float $amount): bool
-    {
-        if (!$this->hasSufficientBalance($amount)) {
-            return false;
-        }
+    // public function debit(float $amount): bool
+    // {
+    //     if (!$this->hasSufficientBalance($amount)) {
+    //         return false;
+    //     }
 
-        $this->balance -= $amount;
-        return $this->save();
-    }
+    //     $this->wallet -= $amount;
+    //     return $this->save();
+    // }
 
-    public function credit(float $amount): bool
-    {
-        $this->balance += $amount;
-        return $this->save();
-    }
+    // public function credit(float $amount): bool
+    // {
+    //     $this->wallet += $amount;
+    //     return $this->save();
+    // }
 }
