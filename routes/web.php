@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Web\UserController;
-use App\Http\Controllers\Web\TransactionController;
+use App\Http\Controllers\PaymentsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,13 +23,12 @@ Route::middleware(["auth", "verified"])->group(function () {
     Route::patch("/profile", [ProfileController::class, "update"])->name("profile.update");
     Route::delete("/profile", [ProfileController::class, "destroy"])->name("profile.destroy");
 
-    Route::get("/transfer", [TransactionController::class, "create"])->name("transfer.create");
-    Route::post("/transfer", [TransactionController::class, "store"])->name("transfer.store");
+    Route::get('/pagamento', [PaymentsController::class, 'index'])->name('pagamento.index');
+    Route::get('/pagamento/transferir', [PaymentsController::class, 'create'])->name('pagamento.create');
+    Route::post('/pagamento/transferir', [PaymentsController::class, 'store'])->name('pagamento.store');
+    Route::get('/pagamento/historico', [PaymentsController::class, 'history'])->name('pagamento.history');
+    Route::get('/pagamento/transacao/{transaction}', [PaymentsController::class, 'show'])->name('pagamento.show');
 
-    // Route::middleware('role:ADMIN')->prefix('admin')->name('admin.')->group(function () {
-    //     Route::resource("users", UserController::class);
-    // });
-    
     Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
         Route::resource("users", UserController::class);
     });

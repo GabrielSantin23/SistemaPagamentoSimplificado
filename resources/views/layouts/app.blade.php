@@ -5,9 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }} - @yield('title', 'Dashboard')</title>
+        <title>Sistema de Pagamentos - @yield('title', 'Dashboard')</title>
 
-        <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
@@ -42,18 +41,15 @@
             .page-header { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: #1f2937; }
             .status-message { margin-bottom: 1rem; padding: 1rem; background-color: #d1fae5; color: #065f46; border-radius: 0.375rem; }
             .error-message { margin-bottom: 1rem; padding: 1rem; background-color: #fee2e2; color: #991b1b; border-radius: 0.375rem; }
-            /* Basic Card Styling */
             .card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
             .card { background-color: lightblue; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1.5rem; text-align: center; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; text-decoration: none; color: #374151; }
             .card:hover { transform: translateY(-5px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
             .card h3 { margin-top: 0; font-size: 1.125rem; font-weight: 600; }
             .card p { font-size: 0.875rem; color: #6b7280; }
-            /* Basic Table Styling */
             table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
             th, td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; }
             th { background-color: #f9fafb; font-weight: 600; color: #374151; }
             tr:nth-child(even) { background-color: #f9fafb; }
-            /* Basic Form Styling */
             .form-label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151; }
             .form-input { display: block; width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem; margin-bottom: 1rem; box-sizing: border-box; }
             .form-button { background-color: #4f46e5; color: white; padding: 0.5rem 1rem; border: none; border-radius: 0.375rem; cursor: pointer; }
@@ -65,21 +61,18 @@
     </head>
     <body>
         <div class="app-layout">
-            <!-- Navigation -->
             <nav class="navbar">
-                <a href="{{ route('dashboard') }}" class="logo">{{ config('app.name', 'Laravel') }}</a>
+                <a href="{{ route('dashboard') }}" class="logo">Sistema de Pagamentos</a>
                 <div>
-                    <span>{{ Auth::user()->name }} ({{ Auth::user()->user_type }}) - Saldo: R$ {{ number_format(Auth::user()->balance, 2, ',', '.') }}</span>
-                    <a href="{{ route('profile.edit') }}">Profile</a>
-                    <!-- Logout Form -->
+                    <span>{{ Auth::user()->name }} ({{ Auth::user()->user_type }})</span>
+                    <a href="{{ route('profile.edit') }}">Meu perfil</a>
                     <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf
-                        <button type="submit">Logout</button>
+                        <button type="submit"><a>Sair</a></button>
                     </form>
                 </div>
             </nav>
 
-            <!-- Page Heading -->
             @hasSection('header')
                 <header style="background-color: white; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); padding: 1rem 2rem;">
                     <h2 class="page-header" style="margin: 0;">
@@ -88,9 +81,7 @@
                 </header>
             @endif
 
-            <!-- Page Content -->
             <main class="main-content">
-                 <!-- Session Status Messages -->
                 @if (session('success'))
                     <div class="status-message">
                         {{ session('success') }}

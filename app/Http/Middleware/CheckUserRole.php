@@ -11,8 +11,6 @@ class CheckUserRole
 {
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        dd('Middleware role ativo com papel: ', $roles);
-        
         if (!Auth::check()) {
             return redirect("login");
         }

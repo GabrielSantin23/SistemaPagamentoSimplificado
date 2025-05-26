@@ -26,7 +26,7 @@
                 <div>
                     <label for="wallet" class="block text-sm font-medium text-gray-700">Carteira (Saldo)</label>
                     <div class="mt-1">
-                        <input type="wallet" name="wallet" id="wallet" value="{{ old('wallet', $user->wallet) }}" required
+                        <input type="wallet" name="wallet" id="wallet" value="{{ old('wallet', $wallet) }}" required
                                class="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm h-8 border border-gray-300 rounded-md @error('wallet') border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 @enderror">
                     </div>
                     @error('wallet')
@@ -50,7 +50,7 @@
                     <div class="mt-1">
                         <select id="user_type" name="user_type" required
                                 class="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm h-8 border border-gray-300 rounded-md @error('user_type') border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 @enderror">
-                            <option value="" disabled {{ old('user_type', $user->user_type ?? '') == '' ? 'selected' : '' }}>Selecione o tipo</option> <!-- Placeholder -->
+                            <option value="" disabled {{ old('user_type', $user->user_type ?? '') == '' ? 'selected' : '' }}>Selecione o tipo</option>
                             <option value="COMUM" {{ old('user_type', $user->user_type ?? '') == 'COMUM' ? 'selected' : '' }}>COMUM</option>
                             <option value="LOJISTA" {{ old('user_type', $user->user_type ?? '') == 'LOJISTA' ? 'selected' : '' }}>LOJISTA</option>
                         </select>

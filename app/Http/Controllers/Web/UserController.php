@@ -8,12 +8,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
 
     public function index(Request $request)
     {
+        $user = Auth::user();
+        $wallet = $user->createWalletIfNotExists();
         $search = $request->input('search');
         $sortField = $request->input('sort', 'name');
         $sortDirection = $request->input('direction', 'asc');
@@ -42,7 +45,8 @@ class UserController extends Controller
             'users' => $users,
             'search' => $search,
             'sortField' => $sortField,
-            'sortDirection' => $sortDirection
+            'sortDirection' => $sortDirection,
+            'wallet' => $wallet,
         ]);
     }
 
@@ -71,18 +75,26 @@ class UserController extends Controller
             'wallet' => $request->wallet,
         ]);
         
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
                          ->with('success', 'Usuário criado com sucesso!');
     }
 
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        $wallet = $user->createWalletIfNotExists();
+        return view('users.show', [
+            'user' => $user,
+            'wallet' => $wallet,
+        ]);
     }
 
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $wallet = $user->createWalletIfNotExists();
+        return view('users.edit', [
+            'user' => $user,
+            'wallet' => $wallet,
+        ]);
     }
 
    
@@ -109,7 +121,7 @@ class UserController extends Controller
         $user->update($userData);
         
 
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.edit', $user->id)
                          ->with('success', 'Usuário atualizado com sucesso!');
     }
 
@@ -117,7 +129,7 @@ class UserController extends Controller
     {
         $user->delete();
         
-        return redirect()->route('users.index')
+        return redirect()->route('admin.users.index')
                          ->with('success', 'Usuário excluído com sucesso!');
     }
 }

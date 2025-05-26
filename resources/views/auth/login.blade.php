@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} - Login</title>
+    <title>{{ config('app.name', 'Laravel') }} - Entrar</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
-    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
-    {{-- Basic styling for demonstration --}}
     <style>
         body { font-family: 'Figtree', sans-serif; background-color: #f3f4f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         .container { background-color: white; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); width: 100%; max-width: 28rem; }
@@ -28,7 +24,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- Session Status -->
         @if (session('status'))
             <div class="status-message">
                 {{ session('status') }}
@@ -38,7 +33,6 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <!-- Email Address -->
             <div>
                 <label for="email" class="form-label">Email</label>
                 <input id="email" class="form-input" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" />
@@ -47,7 +41,6 @@
                 @enderror
             </div>
 
-            <!-- Password -->
             <div style="margin-top: 1rem;">
                 <label for="password" class="form-label">Senha</label>
                 <input id="password" class="form-input" type="password" name="password" required autocomplete="current-password" />
@@ -56,7 +49,6 @@
                 @enderror
             </div>
 
-            <!-- Remember Me -->
             <div style="margin-top: 1rem;">
                 <label for="remember_me" style="display: inline-flex; align-items: center;">
                     <input id="remember_me" type="checkbox" class="form-checkbox" name="remember">

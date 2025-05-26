@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
@@ -45,5 +46,39 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return strtoupper($this->user_type) === 'ADMIN';
+    }
+
+    public function wallet(): HasOne
+    {
+        return $this->hasOne(Wallet::class);
+    }
+
+    public function sentTransactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'payer_id');
+    }
+
+    public function receivedTransactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'payee_id');
+    }
+
+    public function isShopkeeper(): bool
+    {
+        return $this->user_type === 'shopkeeper';
+    }
+
+    public function canSendMoney(): bool
+    {
+        return $this->isComum();
+    }
+
+    public function createWalletIfNotExists()
+    {
+        if (!$this->wallet) {
+            return $this->wallet()->create(['wallet' => 0.00]);
+        }
+
+        return $this->wallet;
     }
 }

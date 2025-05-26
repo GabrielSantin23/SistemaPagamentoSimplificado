@@ -11,7 +11,6 @@
             @csrf
             
             <div class="space-y-6">
-                <!-- Nome -->
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
                     <div class="mt-1">
@@ -23,7 +22,6 @@
                     @enderror
                 </div>
 
-                <!-- CPF/CNPJ -->
                 <div>
                     <label for="cpf_cnpj" class="block text-sm font-medium text-gray-700">CPF ou CNPJ</label>
                     <div class="mt-1">
@@ -35,13 +33,12 @@
                     @enderror
                 </div>
 
-                <!-- Tipo usuário -->
                 <div>
                     <label for="user_type" class="block text-sm font-medium text-gray-700">Tipo de usuário</label>
                     <div class="mt-1">
                         <select id="user_type" name="user_type" required
                                 class="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm h-8 border border-gray-300 rounded-md @error('user_type') border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 @enderror">
-                            <option value="" disabled selected>Selecione o tipo</option> <!-- Opção de placeholder -->
+                            <option value="" disabled selected>Selecione o tipo</option>
                             <option value="COMUM" {{ old('user_type') == 'COMUM' ? 'selected' : '' }}>COMUM</option>
                             <option value="LOJISTA" {{ old('user_type') == 'LOJISTA' ? 'selected' : '' }}>LOJISTA</option>
                         </select>
@@ -51,7 +48,6 @@
                     @enderror
                 </div>
 
-                <!-- Carteira -->
                 <div>
                     <label for="wallet" class="block text-sm font-medium text-gray-700">Carteira (Saldo)</label>
                     <div class="mt-1">
@@ -63,7 +59,6 @@
                     @enderror
                 </div>
                 
-                <!-- Email -->
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                     <div class="mt-1">
@@ -75,7 +70,6 @@
                     @enderror
                 </div>
                 
-                <!-- Senha -->
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
                     <div class="mt-1">
@@ -90,7 +84,6 @@
                     </p>
                 </div>
                 
-                <!-- Confirmação de Senha -->
                 <div>
                     <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirmar Senha</label>
                     <div class="mt-1">
@@ -99,7 +92,6 @@
                     </div>
                 </div>
                 
-                <!-- Botões de ação -->
                 <div class="flex justify-end space-x-3">
                     <a href="{{ route('admin.users.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                         Cancelar
