@@ -64,7 +64,7 @@
             <nav class="navbar">
                 <a href="{{ route('dashboard') }}" class="logo">Sistema de Pagamentos</a>
                 <div>
-                    <span>{{ Auth::user()->name }} ({{ Auth::user()->user_type }})</span>
+                    <span>{{ Auth::user()->name }} ({{ Auth::user()->user_type }}) - Saldo: R$ {{ number_format(Auth::user()->wallet, 2, ',', '.') }}</span>
                     <a href="{{ route('profile.edit') }}">Meu perfil</a>
                     <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf

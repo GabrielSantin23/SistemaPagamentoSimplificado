@@ -83,7 +83,7 @@
         @endif
     </div>
     
-    <div x-show="activeTab === 'received'" style="display: none;">
+    <div x-show="activeTab === 'received'">
         @if($receivedTransactions->count() > 0)
         <ul class="divide-y divide-gray-200">
             @foreach($receivedTransactions as $transaction)
